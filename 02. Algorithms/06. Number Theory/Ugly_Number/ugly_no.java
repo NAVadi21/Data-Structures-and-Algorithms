@@ -81,45 +81,41 @@ For (i = 1; i < 150; i++ )
 
 //Implementation
 
-#include <bits/stdc++.h>
-using namespace std;
-unsigned getNthUglyNo(unsigned n)
-{
-    // To store ugly numbers
-    unsigned ugly[n];
-    unsigned i2 = 0, i3 = 0, i5 = 0;
-    unsigned next_multiple_of_2 = 2;
-    unsigned next_multiple_of_3 = 3;
-    unsigned next_multiple_of_5 = 5;
-    unsigned next_ugly_no = 1;
- 
-    ugly[0] = 1;
-    for (int i = 1; i < n; i++) {
-        next_ugly_no = min(
-            next_multiple_of_2,
-            min(next_multiple_of_3, next_multiple_of_5));
-        ugly[i] = next_ugly_no;
-        if (next_ugly_no == next_multiple_of_2) {
-            i2 = i2 + 1;
-            next_multiple_of_2 = ugly[i2] * 2;
+public class UglyNumbers {
+    public static int getNthUglyNumber(int n) {
+        int[] uglyNumbers = new int[n];
+        uglyNumbers[0] = 1;
+        
+        int nextUglyIndex = 1;
+        int nextMultipleOf2 = 2;
+        int nextMultipleOf3 = 3;
+        int nextMultipleOf5 = 5;
+        
+        int i2 = 0, i3 = 0, i5 = 0;
+        
+        while (nextUglyIndex < n) {
+            int minUglyNumber = Math.min(nextMultipleOf2, Math.min(nextMultipleOf3, nextMultipleOf5));
+            uglyNumbers[nextUglyIndex] = minUglyNumber;
+            
+            if (nextMultipleOf2 == minUglyNumber)
+                nextMultipleOf2 = uglyNumbers[++i2] * 2;
+            
+            if (nextMultipleOf3 == minUglyNumber)
+                nextMultipleOf3 = uglyNumbers[++i3] * 3;
+            
+            if (nextMultipleOf5 == minUglyNumber)
+                nextMultipleOf5 = uglyNumbers[++i5] * 5;
+            
+            nextUglyIndex++;
         }
-        if (next_ugly_no == next_multiple_of_3) {
-            i3 = i3 + 1;
-            next_multiple_of_3 = ugly[i3] * 3;
-        }
-        if (next_ugly_no == next_multiple_of_5) {
-            i5 = i5 + 1;
-            next_multiple_of_5 = ugly[i5] * 5;
-        }
-    } 
-    return next_ugly_no;
+        
+        return uglyNumbers[n - 1];
+    }
+    
+    public static void main(String[] args) {
+        int n = 10; // Example: find the 10th ugly number
+        int nthUglyNumber = getNthUglyNumber(n);
+        System.out.println("The " + n + "th ugly number is: " + nthUglyNumber);
+    }
 }
- 
-int main()
-{
-    int n = 150;
-    cout << getNthUglyNo(n);
-    return 0;
-}
-
-//Code is Contributed By krishna_6431
+// this is the way of dynamic programming approach to find the ugly number.
